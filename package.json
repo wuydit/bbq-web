@@ -1,9 +1,9 @@
 {
-  "name": "eladmin-qt",
+  "name": "bbq-web",
   "version": "1.6.0",
   "license": "Apache License 2.0",
-  "description": "eladmin 前端代码",
-  "author": "jie <elunez@qq.com>",
+  "description": "bbq-web前端代码",
+  "author": "wuyd <wuydit@163.com>",
   "scripts": {
     "dev": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production env_config=prod node build/build.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/elunez/eladmin-qd"
+    "url": "https://github.com/wuydit/bbq-web"
   },
   "dependencies": {
     "axios": "0.18.0",
