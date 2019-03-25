@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" label-position="left" label-width="0px" class="login-form">
-      <h3 class="title">el-admin 后台管理系统</h3>
+      <h3 class="title">bbq 后台管理系统</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon" style="height: 39px;width: 13px;margin-left: 2px;" />
@@ -87,7 +87,7 @@ export default {
           }
           this.$store.dispatch('Login', user).then(() => {
             this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: this.redirect || '/sys/dashboard' })
           }).catch(() => {
             this.loading = false
           })

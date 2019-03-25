@@ -20,7 +20,7 @@ import Layout from '../views/layout/Layout'
 **/
 
 export const constantRouterMap = [
-  { path: '/login',
+  { path: '/sys/login',
     meta: { title: '登录', noCache: true },
     component: () => import('@/views/login/index'),
     hidden: true
@@ -36,7 +36,7 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/redirect',
+    path: '/sys/redirect',
     component: Layout,
     hidden: true,
     children: [
@@ -47,7 +47,7 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/',
+    path: '/sys',
     component: Layout,
     redirect: 'dashboard',
     children: [
@@ -60,7 +60,7 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/user',
+    path: '/sys/user',
     component: Layout,
     hidden: true,
     redirect: 'noredirect',
@@ -72,8 +72,13 @@ export const constantRouterMap = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/',
+    component: () => import('@/views/bbq/index'),
+    name: '首页',
+    meta: { title: '首页', icon: 'index', noCache: true }
   }
-  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({

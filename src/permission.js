@@ -8,22 +8,24 @@ import { filterAsyncRouter } from './store/modules/permission'
 
 NProgress.configure({ showSpinner: false })// NProgress Configuration
 
-const whiteList = ['/login']// no redirect whitelist
+const whiteList = ['/login', '/sys/login', '/']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title + ' - eladmin'
+    document.title = to.meta.title + ' - bbq'
   }
   NProgress.start() // start progress bar
   if (getToken()) {
     // 已登录且要跳转的页面是登录页
-    if (to.path === '/login') {
-      next({ path: '/' })
+    if (to.path === '/sys/login') {
+      console.log('跳转至：' + to.path)
+      next({ path: '/sys/dashboard' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        console.log('拉取user_info')
         store.dispatch('GetInfo').then(res => { // 拉取user_info
-          // 动态路由，拉取菜单
+          // 动态路由，拉取
           loadMenus(next, to)
         }).catch((err) => {
           console.log(err)
@@ -31,10 +33,12 @@ router.beforeEach((to, from, next) => {
             location.reload() // 为了重新实例化vue-router对象 避免bug
           })
         })
-      // 登录时未拉取 菜单，在此处拉取
+        // 登录时未拉取 菜单，在此处拉取
       } else if (store.getters.loadMenus) {
+        console.log('重拉取')
         // 修改成false，防止死循环
-        store.dispatch('updateLoadMenus').then(res => {})
+        store.dispatch('updateLoadMenus').then(res => {
+        })
         loadMenus(next, to)
       } else {
         next()
@@ -42,11 +46,19 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     /* has no token*/
+    console.log('to.path' + to.path)
+    console.log('whiteList' + whiteList)
     if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
       next()
     } else {
-      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
-      NProgress.done()
+      if (to.path.indexOf('sys')) {
+        console.log('重定向到登录页/sys/login')
+        next(`/sys/login?redirect=${to.path}`) // 否则全部重定向到登录页
+        // NProgress.done()
+      } else {
+        console.log('重定向到登录页/login')
+        next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+      }
     }
   }
 })
